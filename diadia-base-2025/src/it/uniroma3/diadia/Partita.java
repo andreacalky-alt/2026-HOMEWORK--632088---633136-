@@ -50,6 +50,7 @@ public class Partita {
 	public Giocatore getGiocatore() {
 		return this.giocatore;
 	}
+	
 	//--------- Metodi ---------
 	/**
 	 * Restituisce vero se e solo se la partita e' stata vinta
@@ -87,7 +88,11 @@ public class Partita {
 	public void setCfu(int cfu) {
 		this.giocatore.setCfu(cfu);		
 	}
-
+	public boolean giocatoreIsVivo() {
+		if(this.giocatore.getCfu()==0)
+			return false;
+		return true;
+	}
 
 
 

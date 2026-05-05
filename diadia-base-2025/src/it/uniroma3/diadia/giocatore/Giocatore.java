@@ -39,7 +39,9 @@ public class Giocatore {
 		return this.borsa.removeAttrezzo(nomeAttrezzo);
 	}
 
-	
+	public Borsa getBorsa() {
+		return this.borsa;
+	}
 
 	public String getContenutoBorsa() {
 		return this.borsa.toString();

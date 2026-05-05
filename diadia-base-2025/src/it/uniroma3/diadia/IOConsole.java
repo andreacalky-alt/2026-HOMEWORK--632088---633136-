@@ -6,7 +6,7 @@ import java.util.Scanner;
 Classe IOConsole - è lo scanner che permette
 di leggere messaggi in input, e di metterene a schermo.
 @version base*/
-public class IOConsole {
+public class IOConsole implements IO {
 
     //Mostra il messaggio in output
     public void mostraMessaggio(String msg) {
