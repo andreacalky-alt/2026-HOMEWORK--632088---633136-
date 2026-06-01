@@ -1,4 +1,4 @@
-package it.uniroma3.diadia.diadia.comandi;
+package it.uniroma3.diadia.comandi;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;

@@ -1,4 +1,4 @@
-package it.uniroma3.diadia.diadia.ambienti;
+package it.uniroma3.diadia.ambienti;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;

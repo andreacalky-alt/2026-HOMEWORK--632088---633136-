@@ -1,4 +1,4 @@
-package it.uniroma3.diadia.diadia.giocatore;
+package it.uniroma3.diadia.giocatore;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;

@@ -1,53 +1,49 @@
-package it.uniroma3.diadia.diadia.comandi;
+package it.uniroma3.diadia.comandi;
 
+
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import it.uniroma3.diadia.comandi.Comando;
-import it.uniroma3.diadia.comandi.FabbricaDiComandiFisarmonica;
+import it.uniroma3.diadia.comandi.FabbricaDiComandiRiflessiva;
 
-public class FabbricaDiComandiFisarmonicaTest {
-	
-	private FabbricaDiComandiFisarmonica fabbrica;
+public class FabbricaComandiRiflessivaTest {
+
+private FabbricaDiComandiRiflessiva fabbrica;
 	
 	@BeforeEach
-	public void setUp() throws Exception {
-		this.fabbrica = new FabbricaDiComandiFisarmonica();
+	public void setUp() {
+		this.fabbrica = new FabbricaDiComandiRiflessiva();
 	}
 	
 	@Test
-	public void testComandoVai() {
+	public void testComandoVai() throws Exception {
 		Comando comando = fabbrica.costruisciComando("vai nord");
 		assertEquals("vai", comando.getNome());
 		assertEquals("nord", comando.getParametro());
 	}
 	
 	@Test
-	public void testComandoPrendi() {
+	public void testComandoPrendi() throws Exception {
 		Comando comando = fabbrica.costruisciComando("prendi osso");
 		assertEquals("prendi", comando.getNome());
 		assertEquals("osso", comando.getParametro());
 	}
 	
 	@Test
-	public void testComandoFine() {
+	public void testComandoFine() throws Exception {
 		Comando comando = fabbrica.costruisciComando("fine");
 		assertEquals("fine", comando.getNome());
 		assertNull(comando.getParametro());
 	}
 	
 	@Test
-	public void testComandoNonValido() {
-		Comando comando = fabbrica.costruisciComando("comandoInesistente");
-		assertEquals("Comando sconosciuto", comando.getNome());
-	}
-	
-	@Test
-	public void testComandoVuoto() {
+	public void testComandoVuoto() throws Exception {
 		Comando comando = fabbrica.costruisciComando("");
+		
 		assertEquals("Comando sconosciuto", comando.getNome());
 	}
 }

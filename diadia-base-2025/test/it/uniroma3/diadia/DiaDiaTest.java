@@ -1,14 +1,13 @@
-package it.uniroma3.diadia.diadia;
+package it.uniroma3.diadia;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import it.uniroma3.diadia.DiaDia;
-import it.uniroma3.diadia.IOSimulator;
 import it.uniroma3.diadia.ambienti.Labirinto;
 
 class DiaDiaTest {
