@@ -1,5 +1,8 @@
-package it.uniroma3.diadia;
-import static org.junit.jupiter.api.Assertions.*;
+package it.uniroma3.diadia.diadia.ambienti;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,7 +35,7 @@ class StanzaTest {
 		 osso = new Attrezzo("osso",1);
 	}
 
-	
+	//---------- Test GetStanzaAdiacente ------------
 	
 	@Test
 	public void testGetStanzaAdiacente_null() {
@@ -58,7 +61,7 @@ class StanzaTest {
 		
 	}
 	
-	
+	//------------- Test AddAttrezzo --------------
 
 	@Test
 	public void testAddAttrezzo_overload_False() {

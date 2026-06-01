@@ -6,16 +6,25 @@ import it.uniroma3.diadia.ambienti.Stanza;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 import it.uniroma3.diadia.giocatore.Giocatore;
 
-public class ComandoPosa implements Comando {
+/** Classe ComandoPosa che si occupa di far
+ *  posare al giocatore un oggetto in 
+ *  una stanza 
+ */
+public class ComandoPosa implements Comando{
 	private String oggetto;
-
+	
+	public ComandoPosa() {}
+	
+	public void setParametro(String parametro) {
+		this.oggetto = parametro;
+	}
 
 	@Override
 	public void esegui(Partita partita, IO io) {
 		Giocatore giocatore = partita.getGiocatore();
 
 		if(oggetto == null) {
-			io.mostraMessaggio("Che oggetto vuoi posare?");
+			io.mostraMessaggio("Quale oggetto vuoi posare?");
 			io.mostraMessaggio(giocatore.getContenutoBorsa());
 			io.mostraMessaggio("\n");
 			return;
@@ -26,34 +35,22 @@ public class ComandoPosa implements Comando {
 		if( attrezzoDaPosare != null) {
 
 			if(stanzaCorrente.addAttrezzo(attrezzoDaPosare)) {
-				io.mostraMessaggio("Attrezzo posato!");
+				io.mostraMessaggio("Oggetto posato");
 			}
 			else {
-				io.mostraMessaggio("Stanza piena!");
+				io.mostraMessaggio("La stanza è piena");
 				giocatore.mettiAttrezzonellaBorsa(attrezzoDaPosare);
 			}
-
-
 		}
 		else
-			io.mostraMessaggio("Non possiedi l'attrezzo!");
+			io.mostraMessaggio("Non hai questo oggetto");
 	}
-
-	@Override
-	public void setParametro(String parametro) {
-		this.oggetto  = parametro;
-
-	}
-
-	@Override
-	public String getParametro() {
-		return this.oggetto;
-	}
-
-
-	@Override
+	
 	public String getNome() {
 		return "posa";
 	}
-
+	
+	public String getParametro() {
+		return this.oggetto;
+	}
 }

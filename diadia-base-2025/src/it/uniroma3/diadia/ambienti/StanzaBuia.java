@@ -1,30 +1,22 @@
 package it.uniroma3.diadia.ambienti;
 
-public class StanzaBuia extends Stanza {
+public class StanzaBuia extends Stanza{
+	private String attrezzoLuminoso;
 
-    private String attrezzoPerVedere;
-
-    /**
-     * Crea una stanza buia.
-     * @param nome il nome della stanza
-     * @param attrezzoPerVedere il nome dell'attrezzo necessario per illuminare la stanza
-     */
-    public StanzaBuia(String nome, String attrezzoPerVedere) {
+    public StanzaBuia(String nome, String attrezzoLuminoso) {
+        // Chiamiamo il costruttore della classe padre (Stanza)
         super(nome);
-        this.attrezzoPerVedere = attrezzoPerVedere;
+        this.attrezzoLuminoso = attrezzoLuminoso;
     }
 
-    /**
-     * Restituisce la descrizione della stanza.
-     * Se l'attrezzo per vedere non è presente, restituisce "qui c'è un buio pesto".
-     * @return la descrizione della stanza
-     */
     @Override
     public String getDescrizione() {
-        if (!this.hasAttrezzo(this.attrezzoPerVedere)) {
+        // Se la stanza NON ha l'attrezzo luminoso, non vediamo nulla
+        if (!this.hasAttrezzo(this.attrezzoLuminoso)) {
             return "qui c'è un buio pesto";
         }
+        
+        // Altrimenti, ci facciamo dare la descrizione normale dalla classe padre
         return super.getDescrizione();
     }
 }
-    

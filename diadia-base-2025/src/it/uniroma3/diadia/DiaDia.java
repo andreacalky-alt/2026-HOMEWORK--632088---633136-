@@ -1,9 +1,8 @@
 package it.uniroma3.diadia;
-
-
+import it.uniroma3.diadia.ambienti.Labirinto;
 import it.uniroma3.diadia.comandi.Comando;
 import it.uniroma3.diadia.comandi.FabbricaDiComandi;
-import it.uniroma3.diadia.comandi.FabbricaDiComandiFisarmonica;
+import it.uniroma3.diadia.comandi.FabbricaDiComandiRiflessiva;
 
 /**
  * Classe principale di diadia, un semplice gioco di ruolo ambientato al dia.
@@ -18,8 +17,6 @@ import it.uniroma3.diadia.comandi.FabbricaDiComandiFisarmonica;
  */
 
 public class DiaDia {
-
-
 
 	static final private String MESSAGGIO_BENVENUTO = ""+
 			"Ti trovi nell'Universita', ma oggi e' diversa dal solito...\n" +
@@ -36,50 +33,47 @@ public class DiaDia {
 	private IO io;
 
 
-
-
-	public DiaDia(IO io) {
-		this.partita = new Partita();
-		this.io=io;
+	public DiaDia(Labirinto labirinto, IO io) {
+		this.io = io;
+		this.partita = new Partita(labirinto);
 	}
 
-	public void gioca() {
+	public void gioca() throws Exception {
 		String istruzione; 
 
 		io.mostraMessaggio(MESSAGGIO_BENVENUTO);
 
 		do		
-			istruzione = ((IO) io).leggiRiga(); 
+			istruzione = io.leggiRiga(); 
 		while (!processaIstruzione(istruzione));
 
 	}   
-
 
 	/**
 	 * Processa una istruzione 
 	 *
 	 * @return true se l'istruzione e' eseguita e il gioco continua, false altrimenti
 	 */
-	private boolean processaIstruzione(String istruzione) {
+	private boolean processaIstruzione(String istruzione) throws Exception {
 		Comando comandoDaEseguire;
-		FabbricaDiComandi factory = new FabbricaDiComandiFisarmonica();
+		FabbricaDiComandi factory = new FabbricaDiComandiRiflessiva();
 		comandoDaEseguire = factory.costruisciComando(istruzione);
 		comandoDaEseguire.esegui(this.partita, this.io);
+
 		if (this.partita.vinta())
+			io.mostraMessaggio("Hai vinto!");
 
-		io.mostraMessaggio("Hai vinto!");
 		if (!this.partita.giocatoreIsVivo())
-
-		io.mostraMessaggio("Hai esaurito i CFU...");
+			io.mostraMessaggio("Hai esaurito i CFU...");
 
 		return this.partita.isFinita();
-		}
-    public static void main(String[] argc) {
-    	IO io=new IOConsole();
-    	DiaDia gioco=new DiaDia(io);
-    	gioco.gioca();
-    }
+	}	
 
 
-	
+	public static void main(String[] argc) throws Exception {
+		IO io = new IOConsole();
+		Labirinto labirinto = new Labirinto();
+		DiaDia gioco = new DiaDia(labirinto, io);
+		gioco.gioca();
+	}
 }

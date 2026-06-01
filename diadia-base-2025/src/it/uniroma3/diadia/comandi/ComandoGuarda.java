@@ -2,37 +2,38 @@ package it.uniroma3.diadia.comandi;
 
 import it.uniroma3.diadia.IO;
 import it.uniroma3.diadia.Partita;
+import it.uniroma3.diadia.giocatore.Borsa;
 
-public class ComandoGuarda implements Comando {
-
-	private IO io;
-	private final static String NOME = "guarda";
-
-
-	@Override
+/** Classe ComandoGuarda che si occupa di stampare
+ *  a schermo le informazioni inerenti alla stanza
+ *  corrente, lo stato della partita e gli oggetti
+ *  contenuti nella borsa
+ */
+public class ComandoGuarda implements Comando{
+	
+	public ComandoGuarda() {}
+	
+	public void setParametro(String parametro) {}
+	
 	public void esegui(Partita partita, IO io) {
 		io.mostraMessaggio(partita.getStanzaCorrente().getDescrizione());
-		io.mostraMessaggio("Hai ancora: "+partita.getGiocatore().getCfu()+ "CFU");
-		io.mostraMessaggio(partita.getGiocatore().getBorsa().toString());
+		io.mostraMessaggio("CFU rimanenti: " + partita.getGiocatore().getCfu());
 		
+		Borsa borsa = partita.getGiocatore().getBorsa();
+		
+		io.mostraMessaggio("\n--- STATO DELLA BORSA ---");
+		io.mostraMessaggio("Stato normale: " + borsa.toString());
+		io.mostraMessaggio("Ordinata per peso: " + borsa.getContenutoOrdinatoPerPeso().toString());
+		io.mostraMessaggio("Ordinata per nome: " + borsa.getContenutoOrdinatoPerNome().toString());
+		io.mostraMessaggio("Raggruppata per peso: " + borsa.getContenutoRaggruppatoPerPeso().toString());
+		io.mostraMessaggio("-------------------------\n");
 	}
-
-	@Override
-	public void setParametro(String parametro) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public String getParametro() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
 	
-	@Override
 	public String getNome() {
-		return NOME;
+		return "guarda";
+	}
+	
+	public String getParametro() {
+		return null;
 	}
 }

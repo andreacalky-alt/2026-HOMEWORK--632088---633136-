@@ -1,5 +1,5 @@
-package it.uniroma3.diadia;
-import static org.junit.jupiter.api.Assertions.*;
+package it.uniroma3.diadia.diadia.giocatore;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,7 @@ class GiocatoreTest {
 	}
 
 	
-	
+	//---------- Test Metodo SetCfu ---------
 	@Test
 	void testSetCfu_StaticValue_True() {
 		assertEquals(20,this.giocatore1.getCfu());

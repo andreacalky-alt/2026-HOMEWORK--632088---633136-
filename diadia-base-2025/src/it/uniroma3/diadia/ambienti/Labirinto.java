@@ -1,32 +1,48 @@
 package it.uniroma3.diadia.ambienti;
 
 
-import it.uniroma3.diadia.attrezzi.Attrezzo;
+import java.util.HashMap;
+import java.util.Map;
 
+import it.uniroma3.diadia.attrezzi.Attrezzo;
+/*
+ * Classe Labirinto - modella l'insieme delle stanze connesse
+ * tra loro, e la presenza di strumenti nelle stanze
+ * tiene conto della stanza vincente,e quella di partenza
+ * 
+ * @version base
+ */
 
 public class Labirinto {
 
 	private  Stanza stanzaIniziale;
 	private  Stanza stanzaVincente;
+	private Map<String, Stanza> stanze;
 	
-	 /**
-     * Crea tutte le stanze e le porte di collegamento
-     */
-    
+	// Per creare un labirinto vuoto per i test
+	public Labirinto(String vuoto) {
+	    this.stanze = new HashMap<>();
+	}
+
+	/**
+	 * Crea tutte le stanze e le porte di collegamento
+	 */
 	public Labirinto() {
 
-		
-    	Attrezzo lanterna = new Attrezzo("lanterna",3);
+		this.stanze = new HashMap<>();
+
+		/* crea gli attrezzi */
+		Attrezzo lanterna = new Attrezzo("lanterna",3);
 		Attrezzo osso = new Attrezzo("osso",1);
-    	
-		
+
+		/* crea stanze del labirinto */
 		Stanza atrio = new Stanza("Atrio");
 		Stanza aulaN11 = new Stanza("Aula N11");
 		Stanza aulaN10 = new Stanza("Aula N10");
 		Stanza laboratorio = new Stanza("Laboratorio Campus");
 		Stanza biblioteca = new Stanza("Biblioteca");
-		
-		
+
+		/* collega le stanze */
 		atrio.impostaStanzaAdiacente("nord", biblioteca);
 		atrio.impostaStanzaAdiacente("est", aulaN11);
 		atrio.impostaStanzaAdiacente("sud", aulaN10);
@@ -40,21 +56,50 @@ public class Labirinto {
 		laboratorio.impostaStanzaAdiacente("ovest", aulaN11);
 		biblioteca.impostaStanzaAdiacente("sud", atrio);
 
-        
+		/* pone gli attrezzi nelle stanze */
 		aulaN10.addAttrezzo(lanterna);
 		atrio.addAttrezzo(osso);
 
-	
-        stanzaIniziale = atrio;
+		// il gioco comincia nell'atrio
+		stanzaIniziale = atrio;
 		stanzaVincente = biblioteca;
+	}
+	//--------- Getter e Setter ----------
+	
+	public Map<String, Stanza> getListaStanze() {
+    	return this.stanze;
     }
 	
 	public Stanza getStanzaVincente() {
 		return this.stanzaVincente;
 	}
-	
-	
+
+    
 	public Stanza getStanzaIniziale() {
 		return this.stanzaIniziale;
+	}
+
+	public void setStanzaIniziale(Stanza stanza) {
+		this.stanzaIniziale = stanza;
+		this.addStanza(stanza); 
+	}
+
+	public void setStanzaVincente(Stanza stanza) {
+		this.stanzaVincente = stanza;
+		this.addStanza(stanza); 
+	}
+
+	// Metodo per aggiungere una stanza al catalogo del labirinto
+	public void addStanza(Stanza stanza) {
+		this.stanze.put(stanza.getNome(), stanza);
+	}
+
+	// Metodo per recuperare una stanza dal catalogo 
+	public Stanza getStanza(String nome) {
+		return this.stanze.get(nome);
+	}
+	
+	public int getNumeroStanze() {
+	    return this.stanze.size();
 	}
 }

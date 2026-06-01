@@ -1,67 +1,85 @@
-package it.uniroma3.diadia;
-
+ package it.uniroma3.diadia;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class IOSimulator implements IO {
 
-    private List<String> righeDaLeggere;
-    private int indiceRigheLette;
-    
-    private List<String> messaggiProdotti;
-    private int indiceMessaggiMostrati;
+	private List<String> righeDaLeggere;
+	private int indiceRigheDaLeggere;
+	
+	private List<String> messaggiProdotti;
+	private int indiceMessaggiMostrati;
+	private int indiceMessaggiLetti;
+	
+	private Map<String, List<String>> logMessaggi;
+	private String comandoAttuale;
 
-    /**
-     * Costruttore che inietta i comandi finti dell'utente
-     */
-    public IOSimulator(List<String> righeDaLeggere) {
-        this.righeDaLeggere = righeDaLeggere;
-        this.indiceRigheLette = 0;
-        this.messaggiProdotti = new ArrayList<>();
-        this.indiceMessaggiMostrati = 0;
-    }
+	/**
+	 * Costruttore: riceve la lista dei comandi che il "finto utente" digiterà.
+	 */
+	public IOSimulator(List<String> righeDaLeggere) {
+		this.righeDaLeggere = righeDaLeggere;
+		this.indiceRigheDaLeggere = 0;
+		this.messaggiProdotti = new ArrayList<>();
+		this.indiceMessaggiMostrati = 0;
+		this.indiceMessaggiLetti = 0;
+		this.logMessaggi = new HashMap<>();
+		this.comandoAttuale = "Inizio Partita";
+	}
 
-    /**
-     * "Finge" di leggere da tastiera prelevando dalla lista
-     */
-    @Override
-    public String leggiRiga() {
-        if (this.indiceRigheLette < this.righeDaLeggere.size()) {
-            String riga = this.righeDaLeggere.get(this.indiceRigheLette);
-            this.indiceRigheLette++;
-            return riga;
-        }
-        return null; // Fine dei comandi simulati
-    }
+	@Override
+	public String leggiRiga() {
+		// Se abbiamo ancora comandi finti da leggere, li restituiamo uno alla volta
+		if (this.indiceRigheDaLeggere < this.righeDaLeggere.size()) {
+			String riga = this.righeDaLeggere.get(this.indiceRigheDaLeggere);
+			this.indiceRigheDaLeggere++;
+			this.comandoAttuale = riga;
+			return riga;
+		} else {
+			return null;
+		}
+	}
 
-    /**
-     * "Finge" di stampare a schermo salvando il messaggio in una lista
-     */
-    @Override
-    public void mostraMessaggio(String messaggio) {
-        this.messaggiProdotti.add(messaggio);
-    }
-    
-    //---------------------------------------------------------
-    // Metodi aggiuntivi utili per interrogare il simulatore nei Test
-    //---------------------------------------------------------
-    
-    public String nextMessaggio() {
-        if (this.indiceMessaggiMostrati < this.messaggiProdotti.size()) {
-            String msg = this.messaggiProdotti.get(this.indiceMessaggiMostrati);
-            this.indiceMessaggiMostrati++;
-            return msg;
-        }
-        return null;
-    }
-    
-    public boolean hasNextMessaggio() {
-        return this.indiceMessaggiMostrati < this.messaggiProdotti.size();
-    }
-    
-    public List<String> getMessaggiProdotti() {
-        return this.messaggiProdotti;
-    }
+	@Override
+	public void mostraMessaggio(String messaggio) {
+		// Invece di fare System.out.println, salviamo il messaggio nella lista
+		this.messaggiProdotti.add(messaggio);
+		this.indiceMessaggiMostrati++;
+		
+		if(!this.logMessaggi.containsKey(this.comandoAttuale)) 
+			this.logMessaggi.put(this.comandoAttuale, new ArrayList<>());
+		this.logMessaggi.get(this.comandoAttuale).add(messaggio);
+		
+	}
+
+	// --- METODI EXTRA PER I TEST ---
+	
+	/**
+	 * Restituisce il prossimo messaggio prodotto dal gioco (utile per le Assertions nei test)
+	 */
+	public String nextMessaggio() {
+		if (this.indiceMessaggiLetti < this.indiceMessaggiMostrati) {
+			String next = this.messaggiProdotti.get(this.indiceMessaggiLetti);
+			this.indiceMessaggiLetti++;
+			return next;
+		} else {
+			return null;
+		}
+	}
+	
+	
+
+	public boolean hasNextMessaggio() {
+		return this.indiceMessaggiLetti < this.indiceMessaggiMostrati;
+	}
+	
+	public Map<String, List<String>> getLogMessaggi(){
+		return this.logMessaggi;
+	}
+
+	public List<String> getMessaggiProdotti() {
+		return messaggiProdotti;
+	}
 }
-
-
