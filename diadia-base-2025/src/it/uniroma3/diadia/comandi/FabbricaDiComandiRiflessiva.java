@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class FabbricaDiComandiRiflessiva implements FabbricaDiComandi {
 
     public Comando costruisciComando(String istruzione) throws Exception {
+    	
         Scanner scannerDiParole = new Scanner(istruzione); // es. 'vai sud'
         String nomeComando = null; // es. 'vai'
         String parametro = null;   // es. 'sud'
@@ -16,7 +17,7 @@ public class FabbricaDiComandiRiflessiva implements FabbricaDiComandi {
             parametro = scannerDiParole.next();   // seconda parola: eventuale parametro
             
         // Se non è stato inserito nulla, potresti gestire l'errore o restituire un comando vuoto/non valido
-        if (nomeComando == null) return new ComandoNonValido(); // Aggiunto per sicurezza
+        if (nomeComando == null) return new ComandoNonvalido(); // Aggiunto per sicurezza
 
         StringBuilder nomeClasse = new StringBuilder("it.uniroma3.diadia.comandi.Comando");
         // Mette la prima lettera in maiuscolo (es. 'v' -> 'V')
@@ -27,7 +28,16 @@ public class FabbricaDiComandiRiflessiva implements FabbricaDiComandi {
         // es. nomeClasse ora è: 'it.uniroma3.diadia.comandi.ComandoVai'
 
         // IL CUORE DELLA RIFLESSIONE
-        comando = (Comando) Class.forName(nomeClasse.toString()).newInstance();
+        
+        try {
+        comando = (Comando) Class.forName(nomeClasse.toString()).getDeclaredConstructor().newInstance();
+        }
+        catch (ClassNotFoundException e){
+        	comando = new ComandoNonvalido();
+        }
+        catch(Exception e) {
+        	System.out.println("Errore inaspettato!");
+        }
         
         comando.setParametro(parametro);
         return comando;

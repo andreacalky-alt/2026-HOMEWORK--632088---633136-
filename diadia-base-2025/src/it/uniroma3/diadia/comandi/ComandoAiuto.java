@@ -4,31 +4,26 @@ import it.uniroma3.diadia.IO;
 import it.uniroma3.diadia.Partita;
 
 /** Classe ComandoAiuto che si occupa di stampare la 
- *  lista di comandi che può usare l'utente
+ * lista di comandi che può usare l'utente
  */
-
-public class ComandoAiuto implements Comando{
+public class ComandoAiuto extends AbstractComando {
 	
 	public ComandoAiuto() {}
 	
-	static final private String[] elencoComandi = {"vai", "prendi","posa", "guarda", "aiuto", "fine"};
-	
+	@Override
 	public void esegui(Partita partita, IO io) {
-		for(int i=0; i< elencoComandi.length; i++) 
-			io.mostraMessaggio(elencoComandi[i] + " ");
-
-		io.mostraMessaggio("\n");
+		io.mostraMessaggio("\nComandi disponibili:");
+		
+		for(String comando : AbstractComando.getNomiComandi()) {
+			// Filtriamo i comandi che NON vogliamo mostrare all'utente!
+			if (comando != null && !comando.equals("nonvalido") && !comando.equals("Comando sconosciuto")) {
+				io.mostraMessaggio("- " + comando);
+			}
+		}
 	}
 	
+	@Override
 	public String getNome() {
 		return "aiuto";
 	}
-	
-	public String getParametro() {
-		return null;
-	}
-	
-	public void setParametro(String parametro) {}
-		
-	
 }

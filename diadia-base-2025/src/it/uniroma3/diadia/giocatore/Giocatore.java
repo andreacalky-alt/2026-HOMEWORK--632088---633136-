@@ -1,5 +1,6 @@
 package it.uniroma3.diadia.giocatore;
 
+import it.uniroma3.diadia.Configurazione;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 
 /*
@@ -7,21 +8,26 @@ import it.uniroma3.diadia.attrezzi.Attrezzo;
  * della partita. Tiene conto delle proprie vite, e può 
  * prendere o posare oggetti nelle stanze. Può verificare 
  * il contenuto della propria borsa
- * 
- * @versiion base
+ * @version base
  */
 public class Giocatore {
 
 	private int cfu;
 	private Borsa borsa;
+	
+	// Questa costante serve da paracadute nel caso serva un fallback
 	static final private int CFU_INIZIALI = 20;
 
 	//---------- Costruttori -----------
 	public Giocatore() {
-		this(CFU_INIZIALI);
+		// Il costruttore base legge giustamente dalla configurazione (es. file properties)
+		this.cfu = Configurazione.getCFU();
+		this.borsa = new Borsa();
 	}
+	
 	public Giocatore(int cfu) {
-		this.cfu= cfu;
+		// FIX: Ora usa EFFETTIVAMENTE il parametro cfu passato dal test!
+		this.cfu = cfu;
 		this.borsa = new Borsa();
 	}
 
@@ -45,7 +51,6 @@ public class Giocatore {
 	 * Delega l'aggiunta di un oggetto alla borsa
 	 * @param attrezzo
 	 */
-
 	public boolean mettiAttrezzonellaBorsa(Attrezzo attrezzo) {
 		return this.borsa.addAttrezzo(attrezzo);
 	}
@@ -54,7 +59,6 @@ public class Giocatore {
 	 * Delega la rimozione di un oggetto dalla borsa
 	 * @param nomeAttrezzo
 	 */
-
 	public Attrezzo prendiAttrezzoDallaBorsa(String nomeAttrezzo) {
 		return this.borsa.removeAttrezzo(nomeAttrezzo);
 	}
@@ -62,7 +66,6 @@ public class Giocatore {
 	/**
 	 * Delega l'output dell'elenco degli oggetti nella borsa
 	 */
-
 	public String getContenutoBorsa() {
 		return this.borsa.toString();
 	}
